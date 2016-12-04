@@ -79,12 +79,7 @@
                 </li>
 
 
-                 <li>
-                    <a href="directions.html">
-                        <i class="pe-7s-search"></i>
-                        <p>Directions</p>
-                    </a>
-                </li>
+                
                  <li>
                     <a href="history.html">
                         <i class="pe-7s-back"></i>
@@ -214,8 +209,8 @@ function CreateLatLngObject(Latitude, Longitude) {
 				myGas[i] = [AQI,co,no2,o3,so2,pm25,radio];	
 				
 				
-			    console.log('name: '+myLocation[i][0] +' lat:' + myLocation[i][1] + ' long: ' +  myLocation[i][2]); //for Debug
-			    console.log('AQI: ' + myGas[i][0]+' CO: '+myGas[i][1] + ' NO2: ' + myGas[i][2] + ' O3: ' + myGas[i][3] + ' SO2: ' + myGas[i][4] + ' PM2.5: ' +myGas[i][5] + 'RadioActive: ' +  myGas[i][6]); //for debug
+			   // console.log('name: '+myLocation[i][0] +' lat:' + myLocation[i][1] + ' long: ' +  myLocation[i][2]); //for Debug
+			   // console.log('AQI: ' + myGas[i][0]+' CO: '+myGas[i][1] + ' NO2: ' + myGas[i][2] + ' O3: ' + myGas[i][3] + ' SO2: ' + myGas[i][4] + ' PM2.5: ' +myGas[i][5] + 'RadioActive: ' +  myGas[i][6]); //for debug
 			    
 			    
 			    placeMarker(myLocation[i],myGas[i]);//call method for create circle on the map			    
@@ -237,7 +232,7 @@ function CreateLatLngObject(Latitude, Longitude) {
         });//cityCircle           
         
 		var infoWindow = new google.maps.InfoWindow({
-		     content: "<div><b>Air Pollution Report</b></div><div>AQI: "+mGas[0]+"</div><div>CO: "+mGas[1]+"</div><div>NO2: "+mGas[2]+"</div><div>O3: "+mGas[3]+"</div><div>SO2: "+mGas[4]+"</div><div>PM2.5: "+mGas[5]+"</div><div>RadioActive: "+mGas[6],
+		     content: "<div><b>Air Pollution Report</b></div><div>Name: "+mValue[0]+"</div><div>AQI: "+mGas[0]+"</div><div>CO: "+mGas[1]+"</div><div>NO2: "+mGas[2]+"</div><div>O3: "+mGas[3]+"</div><div>SO2: "+mGas[4]+"</div><div>PM2.5: "+mGas[5]+"</div><div>RadioActive: "+mGas[6] + "<div>District: "+getDistrictFromLatlng(mValue[1],mValue[2]) + "</div>",
 		      maxWidth: 500
 		});        
 	        	google.maps.event.addListener(cityCircle, 'click', function(ev) {
@@ -261,8 +256,28 @@ function CreateLatLngObject(Latitude, Longitude) {
     	var mArray = [co,no2,o3,so2,pm25];    	
     	var maxValueInArray = Math.max.apply(null, mArray);
     	return parseFloat(maxValueInArray);
-    	 
      }
+    function getDistrictFromLatlng(lat, lng){	
+    	var mResult = "hey";
+    	console.log('getDistrictFromLatlng lat: ' + lat + " long: "+lng)
+    		$.getJSON("http://maps.googleapis.com/maps/api/geocode/json?latlng="+lat+","+lng+"&sensor=true",function(result){
+    			
+    			for(j = 0; j<result.results[0].address_components.length; j++){
+    				
+    				if(result.results[0].address_components[j].long_name.match(/^เขต.*$/)){									
+    						var myDistrict = result.results[0].address_components[j].long_name
+    						mResult = myDistrict.replace("เขต ","");    						
+    						console.log(mResult);
+    						return mResult;
+    						    						
+    				}
+    				    				
+    			}    			
+    			
+    			
+    		});  
+    	
+    }
   function getfillColor(number){
   	
   	var color;

@@ -81,12 +81,6 @@
 
 
                  <li>
-                    <a href="directions.html">
-                        <i class="pe-7s-search"></i>
-                        <p>Directions</p>
-                    </a>
-                </li>
-                 <li>
                     <a href="history.html">
                         <i class="pe-7s-back"></i>
                         <p>History</p>
@@ -318,6 +312,19 @@
 
 <script>
 
+$(document).ready(function(){
+    
+    $.notify({
+        icon: 'pe-7s-gift',
+        message: "Welcome to <b>Air Pollution and ​Radioactive Contamination Analyzing System</b>"
+
+    },{
+        type: 'info',
+        timer: 4000
+    });
+
+});
+
      
  /*
 
@@ -386,11 +393,11 @@
     var gamma_val= 60;
 
     
-    
+   /*  
     var mtext = no2_val;
     while(no2_val != mText){
     	mText = no2_val;
-    }
+    } */
     
     
     
