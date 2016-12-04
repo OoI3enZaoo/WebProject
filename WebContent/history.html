@@ -351,9 +351,14 @@ function initMap() {
 	
 	$('#DateSearch').click(function(){	
 				
-		var mDate = document.getElementById("txtDate").value;
+		var strDate = document.getElementById("txtDate").value;
+							
+		var f = strDate.substr(0,2);
+		var s = strDate.substr(3,2);
+		var t = strDate.substr(6,9);
+		var date = t+'-'+f+'-'+s;// days
 		var mTime = document.getElementById("mTime").value;		
-		console.log('date: ' + mDate + ' mTime: ' + mTime);								
+		console.log('date: ' + date + ' mTime: ' + mTime);								
 		$.getJSON('http://sysnet.utcc.ac.th/aparcas/History.jsp',function(result){
 					
 			var time = checkTime(mTime);
@@ -564,4 +569,5 @@ function getDistrictFromLatlng(lat, lng){
 
 
 </html>
+
 
