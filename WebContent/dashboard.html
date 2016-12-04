@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" >
 <head>
 	<meta charset="utf-8" />
 	
@@ -37,6 +37,10 @@
 
   <script src="bower_components/hightcharts/highcharts.js"></script>
   <script src="bower_components/hightcharts/exporting.js"></script>
+    <script type="text/javascript" src="js/amq_jquery_adapter.js"></script>
+  <script type="text/javascript" src="js/amq.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.0-rc.2/angular.min.js"></script>
+    
 </head>
 <body>
 
@@ -137,7 +141,7 @@
                                 <li><a href="#6">Another notification</a></li>
                               </ul>
                         </li>
-                        <p class="navbar-brand" >Air Pollution and โ€�Radioactive Contamination Analyzing System</p>
+                        <p class="navbar-brand" >Air Pollution and Radioactive Contamination Analyzing System</p>
 
 
 
@@ -170,11 +174,7 @@
                             </div>
                         </div>
                     </div>
-                </div>
-
-
-
-                <div class="content">
+                
                     <div class="col-md-12">
                         <div class="card">
                             <div class="header">
@@ -194,10 +194,7 @@
                             </div>
                         </div>
                     </div>
-                </div>
-
-
-                <div class="content">
+               
                     <div class="col-md-12">
                         <div class="card">
                             <div class="header">
@@ -217,8 +214,7 @@
                             </div>
                         </div>
                     </div>
-                </div>
-                 <div class="content">
+               
                     <div class="col-md-12">
                         <div class="card">
                             <div class="header">
@@ -238,8 +234,7 @@
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="content">
+               
                     <div class="col-md-12">
                         <div class="card">
                             <div class="header">
@@ -259,8 +254,7 @@
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="content">
+              
                     <div class="col-md-12">
                         <div class="card">
                             <div class="header">
@@ -278,7 +272,7 @@
                                         </div>
                                     </div>
                             </div>
-                        </div>
+                        
                     </div>
                 </div>
 
@@ -382,6 +376,7 @@
 
   <script type="text/javascript">
 	
+
     
 	var no2_val = 10;     
  	var o3_val = 20;
@@ -390,6 +385,15 @@
     var co_val= 50;
     var gamma_val= 60;
 
+    
+    
+    var mtext = no2_val;
+    while(no2_val != mText){
+    	mText = no2_val;
+    }
+    
+    
+    
     
     var amq = org.activemq.Amq;
     amq.init({ 
@@ -479,7 +483,7 @@
 	                }
 	            },
 	            title: {
-	                text: 'Live random data'
+	                text: 'Average in Bangkok Area'
 	            },
 	            xAxis: {
 	                type: 'datetime',
@@ -548,7 +552,7 @@
 	                }
 	            },
 	            title: {
-	                text: 'Live random data'
+	                text: 'Average in Bangkok Area'
 	            },
 	            xAxis: {
 	                type: 'datetime',
@@ -616,7 +620,7 @@
 	                }
 	            },
 	            title: {
-	                text: 'Live random data'
+	                text: 'Average in Bangkok Area'
 	            },
 	            xAxis: {
 	                type: 'datetime',
@@ -684,7 +688,7 @@
 	                }
 	            },
 	            title: {
-	                text: 'Live random data'
+	                text: 'Average in Bangkok Area'
 	            },
 	            xAxis: {
 	                type: 'datetime',
@@ -751,7 +755,7 @@
 		                }
 		            },
 		            title: {
-		                text: 'Live random data'
+		                text: 'Average in Bangkok Area'
 		            },
 		            xAxis: {
 		                type: 'datetime',
@@ -820,7 +824,7 @@
 		                }
 		            },
 		            title: {
-		                text: 'Live random data'
+		                text: 'Average in Bangkok Area'
 		            },
 		            xAxis: {
 		                type: 'datetime',
@@ -871,6 +875,13 @@
 		        
 	    });
 	});
+
+
+
+  window.setInterval(function(){
+  	  console.log('call' + o3_val);
+  	}, 5000);
+  
   </script>
 
 

@@ -148,13 +148,7 @@
         </nav>
          <div id="map"></div>
          
-        <div class="content">
-            <div class="container-fluid">
-                <div class="row">
-
-                </div>
-            </div>
-        </div>
+     
 
 </div>
 
@@ -178,12 +172,6 @@
 
 
 
-
-
-
- 
-
-
 function CreateLatLngObject(Latitude, Longitude) {
     var latlng = new google.maps.LatLng(parseFloat(Latitude), parseFloat(Longitude));
     return latlng;
@@ -197,31 +185,50 @@ function CreateLatLngObject(Latitude, Longitude) {
 	      zoom: 13,
 	      center:  
 	    	  //CreateLatLngObject(myLat,myLong)
-	    	  new google.maps.LatLng(-33.923035, 151.25905)
+	    	  new google.maps.LatLng(13.76969, 100.49126)
 	    ,
 	      mapTypeId: google.maps.MapTypeId.ROADMAP
 	    });
 	 	  
-	  	  	 
+	
+ 
 	 var infoWindow;
 	  $.getJSON('http://sysnet.utcc.ac.th/aparcas/AQI.jsp', function(result) {
 		  
 		  for(i = 0; i<result.AQI.length; i++){
+			  
 				var myLocation = [];
-			  	myLocation[i] = [result.AQI[i].name,result.AQI[i].lat,result.AQI[i].long];// mylocation[i] = [["name","lat",long]]
+				var mName = result.AQI[i].name;
+				var mLat = result.AQI[i].lat;
+				var mLong = result.AQI[i].long;
+				myLocation[i] = [mName,mLat,mLong];
+				
+				var myGas  = [];
+				var co = result.AQI[i].co;
+				var no2 = result.AQI[i].no2;
+				var o3 = result.AQI[i].o3;
+				var so2 = result.AQI[i].so2;
+				var pm25 = result.AQI[i].pm25;
+				var radio = result.AQI[i].radio;
+				var AQI = getAQI(co,no2,o3,so2,pm25);
+				myGas[i] = [AQI,co,no2,o3,so2,pm25,radio];	
+				
+				
 			    console.log('name: '+myLocation[i][0] +' lat:' + myLocation[i][1] + ' long: ' +  myLocation[i][2]); //for Debug
+			    console.log('AQI: ' + myGas[i][0]+' CO: '+myGas[i][1] + ' NO2: ' + myGas[i][2] + ' O3: ' + myGas[i][3] + ' SO2: ' + myGas[i][4] + ' PM2.5: ' +myGas[i][5] + 'RadioActive: ' +  myGas[i][6]); //for debug
 			    
-			    placeMarker(myLocation[i]);//call method for create circle on the map			    
+			    
+			    placeMarker(myLocation[i],myGas[i]);//call method for create circle on the map			    
 		  	}//for		  	
 		  	
 		
-    function placeMarker(mValue){   		  		
+    function placeMarker(mValue, mGas){   		  		
         // Add the circle for this city to the map.
         var cityCircle = new google.maps.Circle({
-          strokeColor: '#FF0000',
+          strokeColor: getStrokeColor(mGas[0]),//ขอบ
           strokeOpacity: 0.8,
           strokeWeight: 2,
-          fillColor: '#FF0000',
+          fillColor: getfillColor(mGas[0]),//พื้น
           fillOpacity: 0.35,
           map: map,
           center: new google.maps.LatLng(mValue[1], mValue[2]),
@@ -230,7 +237,7 @@ function CreateLatLngObject(Latitude, Longitude) {
         });//cityCircle           
         
 		var infoWindow = new google.maps.InfoWindow({
-		     content: "<div>Hello! : " + mValue[0] + "</div> </br> <h2>benHod</h2> <button class = 'btn btn-success'>Detail</button>",
+		     content: "<div><b>Air Pollution Report</b></div><div>AQI: "+mGas[0]+"</div><div>CO: "+mGas[1]+"</div><div>NO2: "+mGas[2]+"</div><div>O3: "+mGas[3]+"</div><div>SO2: "+mGas[4]+"</div><div>PM2.5: "+mGas[5]+"</div><div>RadioActive: "+mGas[6],
 		      maxWidth: 500
 		});        
 	        	google.maps.event.addListener(cityCircle, 'click', function(ev) {
@@ -249,13 +256,62 @@ function CreateLatLngObject(Latitude, Longitude) {
 
 	 
      }//init map
-      
-
-      
-      
-    </script>
-    
+       
+    function getAQI(co,no2,o3,so2,pm25){
+    	var mArray = [co,no2,o3,so2,pm25];    	
+    	var maxValueInArray = Math.max.apply(null, mArray);
+    	return parseFloat(maxValueInArray);
+    	 
+     }
+  function getfillColor(number){
+  	
+  	var color;
+  	if(number > 300){
+  		return  "#ff4d4d";//red
+  	}
+  	if(number > 201){
+  		return  "#ff944d";//orange
+  	}
+  	if(number > 100){
+  		return   "#ffff4d";//yellow
+  	}
+  	if(number > 51){
+  		return "#4dff88"//green
+  	}
+  	else{
+  		return  "#4d4dff";//blue
+  		
+  	}
+  	return null;
+  } 
   
+  function getStrokeColor(number){
+	  	
+	  	
+	  	if(number > 300){
+	  		return "#ff0000";//red
+	  	}
+	  	if(number > 201){
+	  		return  "#ff6600";//orange
+	  	}
+	  	if(number >100){
+	  		return   "#ffff00";//yellow
+	  	}
+	  	if(number > 51){
+	  		return  "#00cc00"//green
+	  	}
+	  	else{
+	  		return   "#0066ff";//blue	  		
+	  	}
+	  	return null;
+	  } 
+  
+
+
+  
+
+  
+  </script>
 	<script src="bower_components/bootstrap/dist/js/bootstrap.min.js" type="text/javascript"></script>
 
 	<!--  Checkbox, Radio & Switch Plugins -->
