@@ -681,7 +681,7 @@ function initMap() {
         	}]                   
         });
         //map.setZoom(11);
-        var name = getNameDistrictFromId(district);
+        var name = getNameDistrictFromId(district); //undefined
         var infoWindow;
         var infoWindow = new google.maps.InfoWindow({
 		     content: "<div><b>Air Pollution Report</b><div>Date: "+date+" Time: "+time+"</div></div><div>AQI: "+mAQI+"</div>",
@@ -729,7 +729,7 @@ function getNameDistrictFromId(id){
 	});
 }
 
-  function getfillColor(number){
+  function getfillColor(number){ 
   	
   	var color;
   	if(number > 300){

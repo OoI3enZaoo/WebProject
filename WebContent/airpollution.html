@@ -314,7 +314,7 @@ function CreateLatLngObject(Latitude, Longitude) {
     	var maxValueInArray = Math.max.apply(null, mArray);
     	return parseFloat(maxValueInArray);
      }
-    function getDistrictFromLatlng(lat, lng){	
+    function getDistrictFromLatlng(lat, lng){//undefined	
     	var mResult = "hey";
     	console.log('getDistrictFromLatlng lat: ' + lat + " long: "+lng)
     		$.getJSON("http://maps.googleapis.com/maps/api/geocode/json?latlng="+lat+","+lng+"&sensor=true",function(result){
