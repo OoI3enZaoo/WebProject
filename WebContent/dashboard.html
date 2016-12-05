@@ -129,23 +129,6 @@
                     <ul class="nav navbar-nav navbar-left">
                        
 
-                         <li class="dropdown">
-                              <a class="dropdown-toggle" data-toggle="dropdown">
-                                    <i class="fa fa-globe"></i>
-                                    <b class="caret"></b>
-                                    <span class="notification">5</span>
-                              </a>
-                              <ul class="dropdown-menu">
-                                <li><a href="#2">Notification 1</a></li>
-                                <li><a href="#3">Notification 2</a></li>
-                                <li><a href="#4">Notification 3</a></li>
-                                <li><a href="#5">Notification 4</a></li>
-                                <li><a href="#6">Another notification</a></li>
-                              </ul>
-                        </li>
-                        
-                      
-                        
                         <p class="navbar-brand" >Air Pollution and Radioactive Contamination Analyzing System</p>
 
                     </ul>
@@ -345,7 +328,7 @@
                 </h4>
             </div>            
             <!-- Modal Body -->
-            <div class="modal-body">
+            <div class="modal-body"> 	
                 
                 <form class="form-horizontal" role="form" method="GET" action="http://sysnet.utcc.ac.th/aparcas/Register.jsp">
                   <div class="form-group">
@@ -592,7 +575,7 @@ $("#btnLogin").click(function(){
 					console.log('password success');
 					console.log('id: ' + result.Login[i].member);					
 					$.session.set('id',result.Login[i].member);					
-					window.location.assign("http://localhost:8081/Aparcas/user.html");
+					window.location.assign("http://sysnet.utcc.ac.th/aparcas/user.html");
 					$('#login-modal').modal('toggle');		
 					
 				}

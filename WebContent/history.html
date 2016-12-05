@@ -162,37 +162,19 @@
                 </div>
                 <div class="collapse navbar-collapse">
                     <ul class="nav navbar-nav navbar-left">
-                     
-
-                         <li class="dropdown">
-                              <a class="dropdown-toggle" data-toggle="dropdown">
-                                    <i class="fa fa-globe"></i>
-                                    <b class="caret"></b>
-                                    <span class="notification">5</span>
-                              </a>
-                              <ul class="dropdown-menu">
-                              
-                                <li><a href="#">Notification 1</a></li>
-                                <li><a href="#">Notification 2</a></li>
-                                <li><a href="#">Notification 3</a></li>
-                                <li><a href="#">Notification 4</a></li>
-                                <li><a href="#">Another notification</a></li>
-                              </ul>
-                        </li>
-                        <li>
+                    
+                     	<li>                     
                            <a href=""  data-toggle="modal" data-target="#myModalHorizontal">
                                 <i class="fa fa-search"></i>
                             </a>
-                        </li>
-                        
-                        
+                        </li>                                                
 
 
                     </ul>
 
                     <ul class="nav navbar-nav navbar-right">
                         <li>
-                           <a href="">
+                           <a href="user.html">
                                Account
                             </a>
                         </li>
@@ -249,9 +231,7 @@
                   </div>
                   <div class="form-group">
                     <label class="col-sm-2 control-label" >Time</label>                                                   
-                    <div class="col-sm-10">
-                        
-                        
+                    <div class="col-sm-10">                                                
                         <div class="dropdown">
 								   <button id = "mTime" class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Time
     								<span class="caret"></span></button>
@@ -289,9 +269,15 @@
                	 <div class="form-group">
                     <label class="col-sm-2 control-label"
                           >District</label>
-                    <div class="col-sm-10">
-                        <input  class="form-control"
-                            id="txtDistrict" placeholder="Pick your District"/>
+                    <div class="col-sm-10">                       
+								<div  class="dropdown">
+								   <button id = "mDistrict" class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">District
+    								<span class="caret"></span></button>
+								  <ul id = "dropdownDistrict" class="dropdown-menu">								  
+								  								  								  												   								  								
+								  </ul>
+								</div>    
+								
                     </div>
                   </div>
                    <div class="form-group">
@@ -341,12 +327,25 @@
 $(function(){
 	
 	  $("#txtDate").datepicker();	  
-	  $(".dropdown-menu li a").click(function(){
-		  $(this).parents(".dropdown").find('.btn').html($(this).text() + ' <span class="caret"></span>');
-		  $(this).parents(".dropdown").find('.btn').val($(this).data('value'));
-	});		
+	  $.getJSON('http://sysnet.utcc.ac.th/aparcas/District.jsp',function(result){		  	
+		  for(i = 0; i< result.AQI_History.length; i++){
+			  
+			  var idD = result.AQI_History[i].id_district;
+			  var nameD = result.AQI_History[i].Name;
+			  var query = "<li><a href='#'data-value='"+idD+"'>"+nameD+"</a></li>";
+			  //console.log(query);
+			  $("#dropdownDistrict").append(query);  
+		  }//for	 
+		  
+		  $(".dropdown-menu li a").click(function(){// show value when click
+			  $(this).parents(".dropdown").find('.btn').html($(this).text() + ' <span class="caret"></span>');
+			  $(this).parents(".dropdown").find('.btn').val($(this).data('value'));
+		});		
+		  
+	  });//getJSON
 	  
-});
+	  
+});//function
  
 
 function checkTime(time){
@@ -428,22 +427,22 @@ function checkTime(time){
 }
 
 function getDistrictFromLatlng(lat, lng){	
- 	var myLocation = [["13.736623", "100.563866"],["13.757873","100.53623"]];		
-	for(i = 0; i<myLocation.length; i++){ 
-		$.getJSON("http://maps.googleapis.com/maps/api/geocode/json?latlng="+myLocation[i][0]+","+myLocation[i][1]+"&sensor=true",function(result){						
+// 	var myLocation = [["13.736623", "100.563866"],["13.757873","100.53623"]];		
+	//for(i = 0; i<myLocation.length; i++){ 
+		$.getJSON("http://maps.googleapis.com/maps/api/geocode/json?latlng="+lat+","+lng+"&sensor=true",function(result){						
 			for(j = 0; j<result.results[0].address_components.length; j++){			
 				if(result.results[0].address_components[j].long_name.match(/^เขต.*$/)){									
 						var myDistrict = result.results[0].address_components[j].long_name
 						var mResult = myDistrict.replace("เขต ","");
 						console.log(mResult);
-						//return mResult;
+						return mResult;
 						
 				}
 				
 			}
 		});
 		                 
-	}
+	//}
 }
                  
                  
@@ -495,127 +494,130 @@ function initMap() {
 		var s = strDate.substr(3,2);
 		var t = strDate.substr(6,9);
 		var mDate = t+'-'+f+'-'+s;// days
-		var mTime = document.getElementById("mTime").value;	//time
-		var mDistrict = document.getElementById("txtDistrict").value;//district
+		var mTime = document.getElementById("mTime").value;	//time		
+		var mDistrict = document.getElementById("mDistrict").value;//district
 		
+		console.log('mdate: ' + mDate + ' mTime: ' + mTime + ' mDistrict: ' + mDistrict);
 		if(mDate != "--"){		
 			if(mTime != ""){
 				if(mDistrict != ""){
-					$('#myModalHorizontal').modal('toggle');
-											
-					console.log('date: ' + mDate + ' mTime: ' + mTime);								
+																
 					$.getJSON('http://sysnet.utcc.ac.th/aparcas/History.jsp',function(result){					
 						var time = checkTime(mTime);
 						console.log('checkTime(time): ' +time);
 						for(i = 0; i< result.AQI_History.length; i++){						
-							if(result.AQI_History[i].id_district = mDistrict){
-								if(result.AQI_History[i].date == mDate){									
+							if(mDistrict == result.AQI_History[i].id_district){
+								if(mDate == result.AQI_History[i].date){									
 									var mAQI;
 									if(time == "0"){
 										mAQI= result.AQI_History[i].AQI0;
 										console.log('result: ' +mAQI);															
 									}
-									else if(time == "1"){
+									if(time == "1"){
 										mAQI= result.AQI_History[i].AQI1;
 										console.log('result: ' +mAQI);					
 									}
-									else if(time == "2"){
+									if(time == "2"){
 										mAQI= result.AQI_History[i].AQI2;
 										console.log('result: ' +mAQI);
 									}
-									else if(time == "3"){
+									if(time == "3"){
 										mAQI= result.AQI_History[i].AQI3;
 										console.log('result: ' +mAQI);
 									}
-									else if(time == "4"){
+									if(time == "4"){
 										mAQI= result.AQI_History[i].AQI4;
 										console.log('result: ' +mAQI);
 									}
-									else if(time == "5"){
+									if(time == "5"){
 										mAQI= result.AQI_History[i].AQI5;
 										console.log('result: ' +mAQI);
 									}
-									else if(time == "6"){
+									if(time == "6"){
 										mAQI= result.AQI_History[i].AQI6;
 										console.log('result: ' +mAQI);
 									}
-									else if(time == "7"){
+									if(time == "7"){
 										mAQI= result.AQI_History[i].AQI7;
 										console.log('result: ' +mAQI);
 									}
-									else if(time == "8"){
+									if(time == "8"){
 										mAQI= result.AQI_History[i].AQI8;
 										console.log('result: ' +mAQI);
 									}
-									else if(time == "9"){
+									if(time == "9"){
 										mAQI= result.AQI_History[i].AQI9;
 										console.log('result: ' +mAQI);
 									}
-									else if(time == "10"){
+									if(time == "10"){
 										mAQI= result.AQI_History[i].AQI10;
 										console.log('result: ' +mAQI);
 									}
-									else if(time == "11"){
+									if(time == "11"){
 										mAQI= result.AQI_History[i].AQI11;
 										console.log('result: ' +mAQI);
 									}
-									else if(time == "12"){
+									if(time == "12"){
 										mAQI= result.AQI_History[i].AQI12;
 										console.log('result: ' +mAQI);
 									}
-									else if(time == "13"){
+									if(time == "13"){
 										mAQI= result.AQI_History[i].AQI13;
 										console.log('result: ' +mAQI);
 									}
-									else if(time == "14"){
+									if(time == "14"){
 										mAQI= result.AQI_History[i].AQI14;
 										console.log('result: ' +mAQI);
 									}
-									else if(time == "15"){
+									if(time == "15"){
 										mAQI= result.AQI_History[i].AQI15;
 										console.log('result: ' +mAQI);
 									}
-									else if(time == "16"){
+									if(time == "16"){
 										mAQI= result.AQI_History[i].AQI16;
 										console.log('result: ' +mAQI);
 									}
-									else if(time == "17"){
+									if(time == "17"){
 										mAQI= result.AQI_History[i].AQI17;
 										console.log('result: ' +mAQI);
 									}
-									else if(time == "18"){
+									if(time == "18"){
 										mAQI= result.AQI_History[i].AQI18;
 										console.log('result: ' +mAQI);
 									}
-									else if(time == "19"){
+									if(time == "19"){
 										mAQI= result.AQI_History[i].AQI19;
 										console.log('result: ' +mAQI);
 									}
-									else if(time == "20"){
+									if(time == "20"){
 										mAQI= result.AQI_History[i].AQI20;
 										console.log('result: ' +mAQI);
 									}
-									else if(time == "21"){
+									if(time == "21"){
 										mAQI= result.AQI_History[i].AQI21;
 										console.log('result: ' +mAQI);
 									}
-									else if(time == "22"){
+									if(time == "22"){
 										mAQI= result.AQI_History[i].AQI22;
 										console.log('result: ' +mAQI);
 									}
-									else if(time == "23"){
+									if(time == "23"){
 										mAQI= result.AQI_History[i].AQI23;
 										console.log('result: ' +mAQI);
 									}									
 									if(count == 0){									
 										count++;
 										console.log('district: ' + result.AQI_History[i].id_district + ' AQI: ' + mAQI);
-										setCircleOnMap(result.AQI_History[i].id_district,mAQI,mDate,time);										
+										setCircleOnMap(result.AQI_History[i].id_district,mAQI,mDate,time);
+										$('#myModalHorizontal').modal('toggle');
 										getNotification("pe-7s-smile","success","<b>Success</b> scroll down for see your result.");//icon,type,message
 									}
 								}								
 							}
-						}																										 																									
+						}// end of loop																										 																														
+						
+						document.getElementById('txtError').innerHTML = '<b>Error</b>  Not Found Data in Database';						
+						
 						
 					});//getJSON	
 				}else{
@@ -653,6 +655,7 @@ function initMap() {
      function setCircleOnMap(district,mAQI,date,mtime){
     	  
     	 var time = mtime +":00";
+    	 console.log("mAQI: " + mAQI);
     	  console.log("date: "+date + " time:" + time);
     	var mLayer;
       console.log('setCircleOnMap(' + district+','+mAQI+')');   
@@ -678,6 +681,7 @@ function initMap() {
         	}]                   
         });
         //map.setZoom(11);
+        var name = getNameDistrictFromId(district);
         var infoWindow;
         var infoWindow = new google.maps.InfoWindow({
 		     content: "<div><b>Air Pollution Report</b><div>Date: "+date+" Time: "+time+"</div></div><div>AQI: "+mAQI+"</div>",
@@ -712,6 +716,18 @@ function initMap() {
    
 
 }
+function getNameDistrictFromId(id){
+	$.getJSON('http://sysnet.utcc.ac.th/aparcas/District.jsp',function(result){
+		for(i = 0; i<result.AQI_History.length; i++){
+			if(id == result.AQI_History[i].id_district){
+				var name = result.AQI_History[i].Name;
+				console.log(name);
+				return name;
+			}
+		}
+		
+	});
+}
 
   function getfillColor(number){
   	
@@ -719,7 +735,7 @@ function initMap() {
   	if(number > 300){
   		return  "#ff4d4d";//red
   	}
-  	if(number > 201){
+  	if(number > 200){
   		return  "#ff944d";//orange
   	}
   	if(number > 100){
@@ -741,7 +757,7 @@ function initMap() {
 	  	if(number > 300){
 	  		return "#ff0000";//red
 	  	}
-	  	if(number > 201){
+	  	if(number > 200){
 	  		return  "#ff6600";//orange
 	  	}
 	  	if(number >100){
