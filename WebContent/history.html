@@ -133,6 +133,13 @@
                         <p>Air Quality Index </p>
                     </a>
                 </li>
+                  
+                <li class="active-pro">
+                    <a href="user.html">
+                        <i class="pe-7s-user"></i>
+                        <p>User Profile</p>
+                    </a>
+                </li>
 
 
             </ul>
@@ -603,7 +610,7 @@ function initMap() {
 									if(count == 0){									
 										count++;
 										console.log('district: ' + result.AQI_History[i].id_district + ' AQI: ' + mAQI);
-										setCircleOnMap(result.AQI_History[i].id_district,mAQI);										
+										setCircleOnMap(result.AQI_History[i].id_district,mAQI,mDate,time);										
 										getNotification("pe-7s-smile","success","<b>Success</b> scroll down for see your result.");//icon,type,message
 									}
 								}								
@@ -643,7 +650,10 @@ function initMap() {
       });   //end of map
       
   
-     function setCircleOnMap(district,mAQI){    
+     function setCircleOnMap(district,mAQI,date,mtime){
+    	  
+    	 var time = mtime +":00";
+    	  console.log("date: "+date + " time:" + time);
     	var mLayer;
       console.log('setCircleOnMap(' + district+','+mAQI+')');   
     	
@@ -670,7 +680,7 @@ function initMap() {
         //map.setZoom(11);
         var infoWindow;
         var infoWindow = new google.maps.InfoWindow({
-		     content: "<div><b>Air Pollution Report</b></div><div>AQI: "+mAQI+"</div>",
+		     content: "<div><b>Air Pollution Report</b><div>Date: "+date+" Time: "+time+"</div></div><div>AQI: "+mAQI+"</div>",
 		      maxWidth: 500
 		});
         google.maps.event.addListener(mLayer, 'click', function(ev) {

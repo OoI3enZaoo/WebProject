@@ -134,6 +134,15 @@
                         <p>Air Quality Index </p>
                     </a>
                 </li>
+                
+                  
+                <li class="active-pro">
+                    <a href="user.html">
+                        <i class="pe-7s-user"></i>
+                        <p>User Profile</p>
+                    </a>
+                </li>
+                
 
 
             </ul>
@@ -170,11 +179,7 @@
                                 <li><a href="#">Another notification</a></li>
                               </ul>
                         </li>
-                        <li>
-                           <a href="">
-                                <i class="fa fa-search"></i>
-                            </a>
-                        </li>
+                        
 
 
                     </ul>
@@ -221,7 +226,7 @@ function CreateLatLngObject(Latitude, Longitude) {
 	      zoom: 13,
 	      center:  
 	    	  //CreateLatLngObject(myLat,myLong)
-	    	  new google.maps.LatLng(13.76969, 100.49126)
+	    	  new google.maps.LatLng(13.748461, 100.569513)
 	    ,
 	      mapTypeId: google.maps.MapTypeId.ROADMAP
 	    });
@@ -319,21 +324,24 @@ function CreateLatLngObject(Latitude, Longitude) {
     	var mResult = "hey";
     	console.log('getDistrictFromLatlng lat: ' + lat + " long: "+lng)
     		$.getJSON("http://maps.googleapis.com/maps/api/geocode/json?latlng="+lat+","+lng+"&sensor=true",function(result){
-    			
-    			for(j = 0; j<result.results[0].address_components.length; j++){
-    				
+    			    			
+    			for(j = 0; j<result.results[0].address_components.length; j++){    				
     				if(result.results[0].address_components[j].long_name.match(/^เขต.*$/)){									
-    						var myDistrict = result.results[0].address_components[j].long_name
+    						var myDistrict = result.results[0].address_components[j].long_name;
     						mResult = myDistrict.replace("เขต ","");    						
     						console.log(mResult);
     						return mResult;
+    						
     						    						
     				}
+    				
     				    				
     			}    			
+    	
     			
     			
     		});  
+    	
     	
     }
   function getfillColor(number){
