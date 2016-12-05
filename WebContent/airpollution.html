@@ -39,6 +39,47 @@
   
   
   
+  
+  
+<style type="text/css">
+
+  #legend {
+    background: #FFF;
+    padding: 10px;
+    margin: 5px;
+    font-size: 12px;
+    font-family: Arial, sans-serif;
+  }
+
+  .color {
+    border: 1px solid;
+    height: 12px;
+    width: 12px;
+    margin-right: 3px;
+    float: left;
+  }
+
+  .blue {
+    background: #4d4dff;
+  }
+
+  .green {
+    background: #4dff88;
+  }
+
+  .yellow {
+    background: #ffff4d;
+  }
+
+  .orange {
+    background: #ff944d;
+  }
+
+  .red {
+    background: #ff4d4d;
+  }
+</style>
+
 </head>
 <body>
 
@@ -184,8 +225,7 @@ function CreateLatLngObject(Latitude, Longitude) {
 	    ,
 	      mapTypeId: google.maps.MapTypeId.ROADMAP
 	    });
-	 	  
-	
+	 	  	
  
 	 var infoWindow;
 	  $.getJSON('http://sysnet.utcc.ac.th/aparcas/AQI.jsp', function(result) {
@@ -249,6 +289,24 @@ function CreateLatLngObject(Latitude, Longitude) {
 	 });// json
 	 
 
+	 
+	 
+	 
+	  var legend = document.createElement('div');
+	     legend.id = 'legend';
+	     var content = [];
+	     content.push('<h3>Air Quality Index</h3>');
+	     content.push('<p><div class="color blue"></div>0-50 Good</p>');
+	     content.push('<p><div class="color green"></div>51-100 Moderate</p>');
+	     content.push('<p><div class="color yellow"></div>100-200 Unhealthy for Sensitive Groups</p>');
+	     content.push('<p><div class="color orange"></div>201-300 Unhealthy</p>');
+	     content.push('<p><div class="color red"></div>300+ Very Unhealty</p>');     
+	     legend.innerHTML = content.join('');
+	     legend.index = 1;
+	     map.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(legend);
+	     
+	     
+	     
 	 
      }//init map
        

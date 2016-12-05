@@ -37,15 +37,52 @@
     <link href='http://fonts.googleapis.com/css?family=Roboto:400,700,300' rel='stylesheet' type='text/css'>
     <link href="bower_components/font/css/pe-icon-7-stroke.css" rel="stylesheet" />
 
-     <!--  Google Map Plugin -->
-   <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAWgbWYxPgHHo-PU4IuhjjZhjh1PXfhYkc&callback=initMap"
-  type="text/javascript"></script>
-  
-  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-  <link rel="stylesheet" href="/resources/demos/style.css">  
-  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
   
   
+  <link rel="stylesheet" href = "bower_components/jquery/src/css/jquery-ui.css">
+    
+  <script src="bower_components/jquery/dist/jqeury-ui.js"></script>
+  
+  
+<style type="text/css">
+
+  #legend {
+    background: #FFF;
+    padding: 10px;
+    margin: 5px;
+    font-size: 12px;
+    font-family: Arial, sans-serif;
+  }
+
+  .color {
+    border: 1px solid;
+    height: 12px;
+    width: 12px;
+    margin-right: 3px;
+    float: left;
+  }
+
+  .blue {
+    background: #4d4dff;
+  }
+
+  .green {
+    background: #4dff88;
+  }
+
+  .yellow {
+    background: #ffff4d;
+  }
+
+  .orange {
+    background: #ff944d;
+  }
+
+  .red {
+    background: #ff4d4d;
+  }
+</style>
+
   
 </head>
 <body>
@@ -135,6 +172,13 @@
                                 <li><a href="#">Another notification</a></li>
                               </ul>
                         </li>
+                        <li>
+                           <a href=""  data-toggle="modal" data-target="#myModalHorizontal">
+                                <i class="fa fa-search"></i>
+                            </a>
+                        </li>
+                        
+                        
 
 
                     </ul>
@@ -153,31 +197,55 @@
                                               
         </nav>
 
-<div class="content">
-            <div class="container-fluid">
-                <div class="card">                
-                  <div class="places-buttons">
-                            <div class="row">
-                            <br>                          
-                                <div class="col-md-6 col-md-offset-3 text-center">                                
-                                    <h4 class ="title">Search History of Air Pollution
-                                        <p class="category">Search History of Air Pollution whatever you want</p>
-                                    </h4>
-                                </div>
-                            </div>                                                                                                    
-                    </div>
-                    
-                    <div class="header">
-                        <h5>Pick a Date</h4>
-                        	
-                          		<input id = "txtDate"type='text' class="form-control" id='dp1' placeHolder ="Click here" />
-                          	    
-                          		                   	                          	   
 
+ 
+
+
+
+   <div id="map"></div>
+   
+    </div>
+    
+    
+</div>
+
+
+
+<!-- Modal -->
+<div class="modal fade" id="myModalHorizontal" tabindex="-1" role="dialog" 
+     aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <button type="button" class="close" 
+                   data-dismiss="modal">
+                       <span aria-hidden="true">&times;</span>
+                       <span class="sr-only">Close</span>
+                </button>
+                <h4 class="modal-title" id="myModalLabel">
+                    Search System
+                </h4>
+            </div>
+            
+            <!-- Modal Body -->
+            <div class="modal-body">
+                
+                <form class="form-horizontal" role="form">
+                  <div class="form-group">
+                    <label  class="col-sm-2 control-label"
+                             >Date</label>
+                    <div class="col-sm-10">
+                        <input class="form-control" 
+                        id="txtDate" placeholder="Pick your Date"/>
                     </div>
-                    
-                         <div class="content"> 
-                    	<div class="dropdown">
+                  </div>
+                  <div class="form-group">
+                    <label class="col-sm-2 control-label" >Time</label>                                                   
+                    <div class="col-sm-10">
+                        
+                        
+                        <div class="dropdown">
 								   <button id = "mTime" class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Time
     								<span class="caret"></span></button>
 								  <ul class="dropdown-menu">																   
@@ -208,45 +276,56 @@
 		
 								  </ul>
 								</div>    
-								</div>
-                    
-                    
-                    <div class="content">                    
-                        <div class="row">                                                             
-                           
-                            <br>                                   
-                            <div class="col-md-12">
-                                <button id= "DateSearch"class="btn btn-default btn-block">Search</button>
-                                <!-- onclick="demo.showNotification('top','center') -->                               
-                            </div>
-                            
-                                                       
-                        </div>
-                      
-                      
-                </div>
-           
- 			</div>
- 			
+								
+                    </div>
+                  </div>
+               	 <div class="form-group">
+                    <label class="col-sm-2 control-label"
+                          >District</label>
+                    <div class="col-sm-10">
+                        <input  class="form-control"
+                            id="txtDistrict" placeholder="Pick your District"/>
+                    </div>
+                  </div>
+                   <div class="form-group">
+                    <label  class="col-sm-2 control-label"
+                             ></label>
+                    <div class="col-sm-10">
+                        <p id= "txtError" style="color:#ff0000;"></p>
+                    </div>
+                  </div>
+                  
+               
+               
+                </form>
+                
+                
+                
+                
+                
+                
+            </div>
+            
+            <!-- Modal Footer -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default"
+                        data-dismiss="modal">
+                            Close
+                </button>
+                <button id= "DateSearch" type="button" class="btn btn-primary">
+                   Search
+                </button>
+            </div>
         </div>
-
-        
-        </div>
- 
-
-
-
-   <div id="map"></div>
-   
     </div>
-    
-    
 </div>
-
-
 
 </body>
    
+      <!--  Google Map Plugin -->
+   <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAWgbWYxPgHHo-PU4IuhjjZhjh1PXfhYkc&callback=initMap"
+  type="text/javascript"></script>
+  
 
  
   
@@ -258,14 +337,7 @@ $(function(){
 	  $(".dropdown-menu li a").click(function(){
 		  $(this).parents(".dropdown").find('.btn').html($(this).text() + ' <span class="caret"></span>');
 		  $(this).parents(".dropdown").find('.btn').val($(this).data('value'));
-
-		  
-		  
-	});
-	  
-	  
-	  
-		
+	});		
 	  
 });
  
@@ -347,168 +419,12 @@ function checkTime(time){
 	
 		
 }
-function initMap() {
-	
-	$('#DateSearch').click(function(){	
-				
-		var strDate = document.getElementById("txtDate").value;
-							
-		var f = strDate.substr(0,2);
-		var s = strDate.substr(3,2);
-		var t = strDate.substr(6,9);
-		var date = t+'-'+f+'-'+s;// days
-		var mTime = document.getElementById("mTime").value;		
-		console.log('date: ' + date + ' mTime: ' + mTime);								
-		$.getJSON('http://sysnet.utcc.ac.th/aparcas/History.jsp',function(result){
-					
-			var time = checkTime(mTime);
-			console.log('checkTime(time): ' +time);
-			for(i = 0; i< result.AQI_History.length; i++){				
-															 
-				 console.log('time: ' +mTime);	  				  
-				if(time == "1"){
-					console.log('result: ' +result.AQI_History[i].AQI0);															
-				}
-				else if(time == "2"){
-					console.log('result2: ' +result.AQI_History[i].AQI2);					
-				}			
-				setCircleOnMap(result.AQI_History[i].id_district);
-																
-			}//for
-		});//getJSON				
-	});//date Click
-	
-	
-  var myLatLng = {lat: 14.46523, lng: 100.13137};
-
-  
-      var map = new google.maps.Map(document.getElementById('map'), {
-        zoom: 8,
-        center: myLatLng,
-        mapTypeId: 'terrain'
-      });   //end of map
-      
-  
-     function setCircleOnMap(district){    
-    	  
-      console.log('setCircleOnMap(' + district+')');           
-      var infoWindow = new google.maps.InfoWindow();
-
-        // Initialize the first layer
-        var mLayer = new google.maps.FusionTablesLayer({
-          query: {
-            select: 'geometry',
-            from: '17Vj_x8KaduQcuxi_C0M6teVPKoId_7qQyyJC_zRs',
-            where : "ID_2 = "+district
-          },
-          map: map,
-          suppressInfoWindows: true                            
-        });
-        var infoWindow;
-        var infoWindow = new google.maps.InfoWindow({
-		     content: "<div><b>Air Pollution Report</b></div>",
-		      maxWidth: 500
-		}); 
-        google.maps.event.addListener(mLayer, 'click', function(e) {
-         // windowControl(e, infoWindow, map);
-        	infoWindow.setPosition(ev.latLng);
-        	infoWindow.open(map);
-        });
-
-        
-        //getAQIColor
-        
-        
-         
-        
-        
-	     /*  var layer = new google.maps.FusionTablesLayer({
-	    	  suppressInfoWindows: true,
-	    	  query: {
-	            select: 'geometry',
-	            from: '17Vj_x8KaduQcuxi_C0M6teVPKoId_7qQyyJC_zRs',
-	            where: "ID_2 = 8"
-	          },
-	          styles: [{
-	            polygonOptions: {
-	              fillColor: '#ff0000',
-	              fillOpacity: 0.3,
-	              
-	            }
-	          }
-	          ]
-	        });
-      layer.setMap(map); 
-	        
-	        
-	        var layer2 = new google.maps.FusionTablesLayer({
-		    	  suppressInfoWindows: true,
-		    	  query: {
-		            select: 'geometry',
-		            from: '17Vj_x8KaduQcuxi_C0M6teVPKoId_7qQyyJC_zRs',
-		            where: "ID_2 = 15"
-		          },
-		          styles: [{
-		            polygonOptions: {
-		              fillColor: '#ff0000',
-		              fillOpacity: 0.3,
-		              
-		            }
-		          }
-		          ]
-		        });
-	        	
-		        layer2.setMap(map);  */
-		        
-		        
-	        
-	       
-		        
-	/* 	        
-         var infoWindow;
-        var infoWindow = new google.maps.InfoWindow({
-		     content: "<div><b>Air Pollution Report</b></div>",
-		      maxWidth: 500
-		});   
-        
-        google.maps.event.addListener(layer, 'click', function(ev) {
-
-        	infoWindow.setPosition(ev.latLng);
-        	infoWindow.open(map);              	
-            //alert("lat:"+ event.latLng.lat());
-
-            }); 
-         
-                 */
-	}
-     
-     
- 
-
-  // Open the info window at the clicked location
-     function windowControl(e, infoWindow, map) {
-       infoWindow.setOptions({
-         content: e.infoWindowHtml,
-         position: e.latLng,
-         pixelOffset: e.pixelOffset
-       });
-       infoWindow.open(map);
-     }
-
-}
-
-
-
-
-</script>
-
-<script>
 
 function getDistrictFromLatlng(lat, lng){	
  	var myLocation = [["13.736623", "100.563866"],["13.757873","100.53623"]];		
 	for(i = 0; i<myLocation.length; i++){ 
 		$.getJSON("http://maps.googleapis.com/maps/api/geocode/json?latlng="+myLocation[i][0]+","+myLocation[i][1]+"&sensor=true",function(result){						
-			for(j = 0; j<result.results[0].address_components.length; j++){						
+			for(j = 0; j<result.results[0].address_components.length; j++){			
 				if(result.results[0].address_components[j].long_name.match(/^เขต.*$/)){									
 						var myDistrict = result.results[0].address_components[j].long_name
 						var mResult = myDistrict.replace("เขต ","");
@@ -545,7 +461,294 @@ function getDistrictFromLatlng(lat, lng){
   	}
   	return null;
   } 
+ function getNotification(micon,mtype,mdata)
+ {
+	 
+	 $.notify({
+	        icon: micon,//icon
+	        message: mdata//data
+
+	    },{
+	        type: mtype, //type  danger ,warning ,success ,info
+	        timer: 4000
+	    });		
+	 
+	 
+ }
  
+ 
+ 
+function initMap() {
+	
+	$('#DateSearch').click(function(){
+		
+		var count = 0; 
+		var strDate = document.getElementById("txtDate").value;					
+		var f = strDate.substr(0,2);
+		var s = strDate.substr(3,2);
+		var t = strDate.substr(6,9);
+		var mDate = t+'-'+f+'-'+s;// days
+		var mTime = document.getElementById("mTime").value;	//time
+		var mDistrict = document.getElementById("txtDistrict").value;//district
+		
+		if(mDate != "--"){		
+			if(mTime != ""){
+				if(mDistrict != ""){
+					$('#myModalHorizontal').modal('toggle');
+											
+					console.log('date: ' + mDate + ' mTime: ' + mTime);								
+					$.getJSON('http://sysnet.utcc.ac.th/aparcas/History.jsp',function(result){					
+						var time = checkTime(mTime);
+						console.log('checkTime(time): ' +time);
+						for(i = 0; i< result.AQI_History.length; i++){						
+							if(result.AQI_History[i].id_district = mDistrict){
+								if(result.AQI_History[i].date == mDate){									
+									var mAQI;
+									if(time == "0"){
+										mAQI= result.AQI_History[i].AQI0;
+										console.log('result: ' +mAQI);															
+									}
+									else if(time == "1"){
+										mAQI= result.AQI_History[i].AQI1;
+										console.log('result: ' +mAQI);					
+									}
+									else if(time == "2"){
+										mAQI= result.AQI_History[i].AQI2;
+										console.log('result: ' +mAQI);
+									}
+									else if(time == "3"){
+										mAQI= result.AQI_History[i].AQI3;
+										console.log('result: ' +mAQI);
+									}
+									else if(time == "4"){
+										mAQI= result.AQI_History[i].AQI4;
+										console.log('result: ' +mAQI);
+									}
+									else if(time == "5"){
+										mAQI= result.AQI_History[i].AQI5;
+										console.log('result: ' +mAQI);
+									}
+									else if(time == "6"){
+										mAQI= result.AQI_History[i].AQI6;
+										console.log('result: ' +mAQI);
+									}
+									else if(time == "7"){
+										mAQI= result.AQI_History[i].AQI7;
+										console.log('result: ' +mAQI);
+									}
+									else if(time == "8"){
+										mAQI= result.AQI_History[i].AQI8;
+										console.log('result: ' +mAQI);
+									}
+									else if(time == "9"){
+										mAQI= result.AQI_History[i].AQI9;
+										console.log('result: ' +mAQI);
+									}
+									else if(time == "10"){
+										mAQI= result.AQI_History[i].AQI10;
+										console.log('result: ' +mAQI);
+									}
+									else if(time == "11"){
+										mAQI= result.AQI_History[i].AQI11;
+										console.log('result: ' +mAQI);
+									}
+									else if(time == "12"){
+										mAQI= result.AQI_History[i].AQI12;
+										console.log('result: ' +mAQI);
+									}
+									else if(time == "13"){
+										mAQI= result.AQI_History[i].AQI13;
+										console.log('result: ' +mAQI);
+									}
+									else if(time == "14"){
+										mAQI= result.AQI_History[i].AQI14;
+										console.log('result: ' +mAQI);
+									}
+									else if(time == "15"){
+										mAQI= result.AQI_History[i].AQI15;
+										console.log('result: ' +mAQI);
+									}
+									else if(time == "16"){
+										mAQI= result.AQI_History[i].AQI16;
+										console.log('result: ' +mAQI);
+									}
+									else if(time == "17"){
+										mAQI= result.AQI_History[i].AQI17;
+										console.log('result: ' +mAQI);
+									}
+									else if(time == "18"){
+										mAQI= result.AQI_History[i].AQI18;
+										console.log('result: ' +mAQI);
+									}
+									else if(time == "19"){
+										mAQI= result.AQI_History[i].AQI19;
+										console.log('result: ' +mAQI);
+									}
+									else if(time == "20"){
+										mAQI= result.AQI_History[i].AQI20;
+										console.log('result: ' +mAQI);
+									}
+									else if(time == "21"){
+										mAQI= result.AQI_History[i].AQI21;
+										console.log('result: ' +mAQI);
+									}
+									else if(time == "22"){
+										mAQI= result.AQI_History[i].AQI22;
+										console.log('result: ' +mAQI);
+									}
+									else if(time == "23"){
+										mAQI= result.AQI_History[i].AQI23;
+										console.log('result: ' +mAQI);
+									}									
+									if(count == 0){									
+										count++;
+										console.log('district: ' + result.AQI_History[i].id_district + ' AQI: ' + mAQI);
+										setCircleOnMap(result.AQI_History[i].id_district,mAQI);										
+										getNotification("pe-7s-smile","success","<b>Success</b> scroll down for see your result.");//icon,type,message
+									}
+								}								
+							}
+						}																										 																									
+						
+					});//getJSON	
+				}else{
+					
+					document.getElementById('txtError').innerHTML = '<b>Error</b>  Please complete your District';
+					getNotification("pe-7s-close-circle","danger","<b>Error</b> Please complete your District");
+					
+					
+			}
+			}else{
+				
+				document.getElementById('txtError').innerHTML = '<b>Error</b>  Please complete your time';
+				getNotification("pe-7s-close-circle","danger","<b>Error</b> Please complete your time");
+				
+				
+		}// end of else of time
+		}else{
+			
+			document.getElementById('txtError').innerHTML = '<b>Error:</b>  Please complete your date';
+			getNotification("pe-7s-close-circle","danger","<b>Error:</b>  Please complete your Date");
+			
+		}		// end of else of date
+	});//date Click
+	
+	
+  var myLatLng = {lat: 13.755506, lng: 100.506470};
+  
+      var map = new google.maps.Map(document.getElementById('map'), {
+        zoom: 8,
+        center: myLatLng,
+        mapTypeId: 'terrain'
+      });   //end of map
+      
+  
+     function setCircleOnMap(district,mAQI){    
+    	var mLayer;
+      console.log('setCircleOnMap(' + district+','+mAQI+')');   
+    	
+      var infoWindow = new google.maps.InfoWindow();
+
+        // Initialize the first layer
+        mLayer = new google.maps.FusionTablesLayer({
+          query: {
+            select: 'geometry',
+            from: '17Vj_x8KaduQcuxi_C0M6teVPKoId_7qQyyJC_zRs',
+            where : "ID_2 = "+district
+          },
+          map: map,
+        
+          suppressInfoWindows: true ,
+          styles: [{        	  
+        	  polygonOptions: {
+        	    fillColor: getfillColor(mAQI),
+        	    strokeColor: getStrokeColor(mAQI),
+        	    strokeWeight: 2
+        	  }
+        	}]                   
+        });
+        //map.setZoom(11);
+        var infoWindow;
+        var infoWindow = new google.maps.InfoWindow({
+		     content: "<div><b>Air Pollution Report</b></div><div>AQI: "+mAQI+"</div>",
+		      maxWidth: 500
+		});
+        google.maps.event.addListener(mLayer, 'click', function(ev) {
+         // windowControl(e, infoWindow, map);
+        	infoWindow.setPosition(ev.latLng);
+        	infoWindow.open(map);
+        });
+        
+        
+       
+
+	}//setcircle on map
+     
+     
+ 
+     // Create the legend and display on the map
+     var legend = document.createElement('div');
+     legend.id = 'legend';
+     var content = [];
+     content.push('<h3>Air Quality Index</h3>');
+     content.push('<p><div class="color blue"></div>0-50 Good</p>');
+     content.push('<p><div class="color green"></div>51-100 Moderate</p>');
+     content.push('<p><div class="color yellow"></div>100-200 Unhealthy for Sensitive Groups</p>');
+     content.push('<p><div class="color orange"></div>201-300 Unhealthy</p>');
+     content.push('<p><div class="color red"></div>300+ Very Unhealty</p>');     
+     legend.innerHTML = content.join('');
+     legend.index = 1;
+     map.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(legend);
+   
+
+}
+
+  function getfillColor(number){
+  	
+  	var color;
+  	if(number > 300){
+  		return  "#ff4d4d";//red
+  	}
+  	if(number > 201){
+  		return  "#ff944d";//orange
+  	}
+  	if(number > 100){
+  		return   "#ffff4d";//yellow
+  	}
+  	if(number > 51){
+  		return "#4dff88"//green
+  	}
+  	else{
+  		return  "#4d4dff";//blue
+  		
+  	}
+  	return null;
+  } 
+  
+  function getStrokeColor(number){
+	  	
+	  	
+	  	if(number > 300){
+	  		return "#ff0000";//red
+	  	}
+	  	if(number > 201){
+	  		return  "#ff6600";//orange
+	  	}
+	  	if(number >100){
+	  		return   "#ffff00";//yellow
+	  	}
+	  	if(number > 51){
+	  		return  "#00cc00"//green
+	  	}
+	  	else{
+	  		return   "#0066ff";//blue	  		
+	  	}
+	  	return null;
+	  } 
+  
+
+
+
 </script>
 
     
